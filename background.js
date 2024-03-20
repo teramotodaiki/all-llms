@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(async () => {
   chrome.contextMenus.create({
     id: "ask-all-llms",
-    title: "LLMsに聞く",
+    title: "Ask all LLMs",
     type: "normal",
     contexts: ["selection"],
     documentUrlPatterns: ["*://*/*"],

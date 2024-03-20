@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "name": "Ask to all LLMs",
+  "short_name": "LLMs",
+  "icons": {
+    "256": "./icons/256.png"
+  },
+  "action": {},
+  "permissions": ["activeTab", "contextMenus", "scripting", "tabs"],
+  "host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "./background.js",
+    "type": "module"
+  }
+}

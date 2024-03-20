@@ -35,9 +35,36 @@ const LLMs = [
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const { selectionText, menuItemId, pageUrl } = info;
 
+  const getSelectionText = async () => {
+    const tabId = tab?.id;
+    if (!tabId) {
+      throw new Error("tabId is not found");
+    }
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId },
+        func: () => {
+          const selection = window.getSelection();
+          return selection?.toString();
+        },
+      });
+      const result = results[0].result;
+      if (typeof result === "string") {
+        return result;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    if (!selectionText) {
+      throw new Error("selectionText is not found");
+    }
+    return selectionText; // 改行が半角スペースになってしまう
+  };
+
   switch (menuItemId) {
     case "ask-all-llms": {
-      if (!selectionText) return;
+      const selectionText = await getSelectionText();
+      console.log(selectionText);
 
       for (const llm of LLMs) {
         // 今開いているサービスなら無視する
